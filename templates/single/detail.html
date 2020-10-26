@@ -1,0 +1,166 @@
+{% extends 'single/base.html' %}
+
+{% block title %}{{ album }}{% endblock %}
+
+{% block albums_active %}active{% endblock %}
+
+
+
+{% block body %}
+
+    <div class="container-fluid sarkilar-container">
+
+
+        <div class="row">
+
+
+            <div class="col-sm-4 col-md-3">
+
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+
+                        <a href="{% url 'single:detail' album.id %}">
+
+                            {% if album.album_logo %}
+
+                                <img src="{{ album.album_logo.url }}" class="img-responsive">
+
+                            {% else %}
+
+                                <h3>Görüntülenecek resim yok</h3>
+
+                            {% endif %}
+
+                        </a>
+
+                        <h1>{{ album.album_basligi }}
+                            <small>{{ album.tur }}</small>
+                        </h1>
+
+                        <h2>{{ album.sarkici }}</h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Right Song Info -->
+
+            <div class="col-sm-8 col-md-9">
+
+
+                <ul class="nav nav-pills" style="margin-bottom: 10px;">
+
+                    <li role="presentation" class="active"><a href="{% url 'single:detail' album.id %}">Tümünü
+                        Görüntüle</a>
+                    </li>
+                    <li role="presentation"><a href="{% url 'single:create_sarki' album.id %}">Yeni Müzik Ekle</a></li>
+
+
+                </ul>
+
+
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+
+
+                        <h3>Şarkılar</h3>
+
+
+
+                        {% if error_message %}
+
+                            <p><strong>{{ error_message }}</strong></p>
+
+                        {% endif %}
+
+
+
+                        <table class="table">
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Adı</th>
+
+                                <th>Müzik Dosyası</th>
+
+                                <th>Favori</th>
+
+                                <th>Sil</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            {% for song in album.sarki_set.all %}
+
+                                <tr>
+
+                                    <td>{{ song.sarki_basligi }}</td>
+
+                                    <td>
+
+                                        <a target="_blank" href="{{ song.ses_dosyaları.url }}">
+
+                                            <button type="button" class="btn btn-success btn-xs">
+
+                                                <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+
+                                            </button>
+
+                                        </a>
+
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{% url 'single:favorite' song.id %}?sayfa={% url "single:detail" song.album.id %}" class="btn-favorite"><span
+                                                class="glyphicon glyphicon-star {% if song.favoriler %}active{% endif %}"></span></a>
+
+                                    </td>
+
+                                    <td>
+
+                                        <form action="{% url 'single:sarki_sil' album.id song.id %}" method="post" style="display: inline;">
+                                             {% csrf_token %}
+                                            <input type="hidden" name="song_id" value="{{ song.id }}"/>
+                                            <button type="submit" class="btn btn-danger btn-xs">
+                                                <span class="glyphicon glyphicon-remove"></span>&nbsp; Sil
+                                            </button>
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+{% endblock %}

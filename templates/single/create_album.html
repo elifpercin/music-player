@@ -1,0 +1,88 @@
+{% extends 'single/base.html' %}
+
+{% block title %}Albüm Ekle{% endblock %}
+
+{% block albums_active %}active{% endblock %}
+
+
+
+{% block body %}
+
+<div class="container-fluid">
+
+
+
+    <div class="row">
+
+
+
+        <div class="col-sm-12 col-md-7">
+
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+
+                    <h3>Albüm Ekle</h3>
+
+                    {% if error_message %}
+
+                        <p><strong>{{ error_message }}</strong></p>
+
+                    {% endif %}
+
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        {% include 'single/form_template.html' %}
+
+                        <div class="form-group">
+
+                            <div class="col-sm-offset-2 col-sm-10">
+
+                                <button type="submit" class="btn btn-success">Gönder</button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-sm-12 col-md-5">
+
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+
+                    <h3>Utopian Nasıl Bir Uygulama?</h3>
+
+                    <p>Utopian, tüm müziklerinizi bulutta yüklemenizi ve depolamanızı sağlayan bir uygulamadır.</p>
+
+                    <h3>Müziği nasıl eklerim?</h3>
+
+                    <p>İlk olarak, bu sayfadaki formu doldurarak yeni bir albüm oluşturun. Bir albüm oluşturulduktan sonra şarkı ekleyebilir / yükleyebilirsiniz.</p>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+{% endblock %}

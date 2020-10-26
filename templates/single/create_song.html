@@ -1,0 +1,76 @@
+{% extends 'single/base.html' %}
+{% block title %}Yeni Müzik Ekle{% endblock %}
+{% block albums_active %}activate {% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <a href={% url 'single:detail' album.id %}>
+                            {% if album.album_logo %}
+                                <img src="{{ album.album_logo.url }}" class="img-responsive">
+                            {% else %}
+                                <h3>Görüntülenecek Resim Yok</h3>
+
+                            {% endif %}
+                        </a>
+                        <h1>{{ album.album_basligi }}
+                            <small>{{ album.tur }}</small>
+                        </h1>
+
+                        <h2>{{ album.sarkici }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8 col-md-9">
+                <ul class="nav nav-pills" style="margin-bottom: 10px;">
+
+                    <li role="presentation"><a href="{% url 'single:detail' album.id %}">Hepsi</a></li>
+
+                    <li role="presentation" class="active"><a href="{% url 'single:create_sarki' album.id %}">Yeni Müzik
+                        Ekle</a></li>
+
+                </ul>
+
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+
+                        <h3>Yeni Müzik Ekle</h3>
+
+                        {% if error_message %}
+
+                            <p><strong>{{ error_message }}</strong></p>
+
+                        {% endif %}
+
+                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
+                            {% csrf_token %}
+
+                            <input type="hidden" name="album" value="{{ album }}">
+
+                            {% include 'single/form_template.html' %}
+
+                            <div class="form-group">
+
+                                <div class="col-sm-offset-2 col-sm-10">
+
+                                    <button type="submit" class="btn btn-success">Gönder</button>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

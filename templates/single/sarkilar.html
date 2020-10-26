@@ -1,0 +1,131 @@
+{% extends 'single/base.html' %}
+
+{% block title %}All Songs{% endblock %}
+
+{% block songs_active %}active{% endblock %}
+
+
+
+{% block body %}
+
+<div class="container-fluid sarkilar-container">
+
+
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+
+                <li role="presentation" {% if filter_by == 'all' %}class="active"{% endif %}><a href="{% url 'single:sarkilar' 'all'%}">Hepsi</a></li>
+
+                <li role="presentation" {% if filter_by == 'favoriler' %}class="active"{% endif %}><a href="{% url 'single:sarkilar' 'favoriler' %}">Favoriler</a></li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+
+
+
+        <div class="col-sm-12">
+
+
+
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+
+                    <table class="table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Şarkı Adı</th>
+
+                                <th>Sanatçı</th>
+
+                                <th>Müzik Dosyası</th>
+
+                                <th>Albüm</th>
+
+                                <th>Favori</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for song in song_list%}
+
+                                <tr>
+
+                                    <td>{{ song.sarki_basligi }}</td>
+
+                                    <td>{{ song.album.sarkici }}</td>
+
+                                    <td>
+
+                                        <a target="_blank" href="{{ song.ses_dosyalari.url }}">
+
+                                            <button type="button" class="btn btn-success btn-xs">
+
+                                                <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+
+                                            </button>
+
+                                        </a>
+
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{% url 'single:detail' song.album.id %}">
+
+                                            <img src="{{ song.album.album_logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
+
+                                        </a>
+
+                                        <a href="{% url 'single:detail' song.album.id %}">{{ song.album.album_basligi }}</a>
+
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{% url 'single:favorite' song.id %}?sayfa={% url 'single:sarkilar' 'favorite' %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.favoriler %}active{% endif %}"></span></a>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+{% endblock %}
